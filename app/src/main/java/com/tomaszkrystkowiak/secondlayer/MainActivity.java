@@ -1,10 +1,12 @@
 package com.tomaszkrystkowiak.secondlayer;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,12 +31,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startCreationActivity(){
+        Intent intent = new Intent(this, CreationActivity.class);
+        startActivity(intent);
+    }
+
     private class CreateButtonClick implements View.OnClickListener{
 
         @Override
-        public void onClick(View v) {
-
-        }
+        public void onClick(View v) { startCreationActivity();}
     }
 
     private class ExplorationButtonClick implements View.OnClickListener{
