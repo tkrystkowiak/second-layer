@@ -40,7 +40,7 @@ public class CreationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_creation);
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.board_fragment);
         ViewRenderable.builder()
-                .setSource(this, R.id.board_view)
+                .setView(this, R.layout.board)
                 .build()
                 .thenAccept(renderable -> boardRenderable = renderable)
                 .exceptionally(
