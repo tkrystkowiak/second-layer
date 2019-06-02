@@ -44,7 +44,8 @@
         <activity
             android:name=".ExplorationActivity"
             android:label="@string/title_activity_exploration" />
-        <activity android:name=".CreationActivity"></activity>
+        <activity android:name=".CreationActivity"
+            android:windowSoftInputMode="stateVisible"></activity>
     </application>
 
 </manifest>
