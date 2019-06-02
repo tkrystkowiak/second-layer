@@ -3,5 +3,6 @@
     <string name="create_button">Create board</string>
     <string name="explore_button">Explore</string>
     <string name="add_tittle_button">Add title</string>
+    <string name="add_save_button">Save</string>
     <string name="title_activity_exploration">Map</string>
 </resources>

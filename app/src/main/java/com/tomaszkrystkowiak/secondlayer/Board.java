@@ -15,13 +15,15 @@ public class Board {
     public int bid;
 
     @ColumnInfo(name = "title")
-
     public String title;
+
+    @ColumnInfo(name = "creator")
+    public  String creator;
 
     @ColumnInfo(name = "location")
     public Location location;
 
     @ColumnInfo(name = "messages")
-    public ArrayList<String> messages;
+    public ArrayList<Message> messages;
 
 }

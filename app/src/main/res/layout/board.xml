@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/board_view"
     android:layout_width="150dp"
@@ -9,16 +10,41 @@
     android:background="@drawable/board">
 
 
-    <TextView
-        android:id="@+id/title_textView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_tittle_button"/>
+        <TextView
+            android:id="@+id/title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:textColor="@android:color/background_light" />
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:text="@string/add_tittle_button"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/title_textView"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/add_save_button"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/title_textView"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
