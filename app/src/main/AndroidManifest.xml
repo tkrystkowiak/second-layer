@@ -44,8 +44,10 @@
         <activity
             android:name=".ExplorationActivity"
             android:label="@string/title_activity_exploration" />
-        <activity android:name=".CreationActivity"
-            android:windowSoftInputMode="stateVisible"></activity>
+        <activity
+            android:name=".CreationActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".BoardListActivity"></activity>
     </application>
 
 </manifest>

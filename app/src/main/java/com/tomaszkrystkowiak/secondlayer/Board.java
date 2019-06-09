@@ -3,6 +3,7 @@ package com.tomaszkrystkowiak.secondlayer;
 import android.location.Location;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -18,12 +19,17 @@ public class Board {
     public String title;
 
     @ColumnInfo(name = "creator")
-    public  String creator;
+    public String creator;
 
     @ColumnInfo(name = "location")
     public Location location;
 
+    @ColumnInfo(name = "date")
+    public Date date;
+
     @ColumnInfo(name = "messages")
     public ArrayList<Message> messages;
+
+
 
 }

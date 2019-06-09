@@ -31,6 +31,9 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -154,7 +157,7 @@ public class CreationActivity extends AppCompatActivity {
 
     private Location getLocation() {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
         }
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -170,9 +173,10 @@ public class CreationActivity extends AppCompatActivity {
 
     public Board prepareBoardToSave(){
         Board toSave = new Board();
-        toSave.creator = "user";
+        toSave.creator = getResources().getString(R.string.user_name);
         toSave.title = boardTitle;
         toSave.location = getLocation();
+        toSave.date = Calendar.getInstance().getTime();
         return toSave;
     }
 
