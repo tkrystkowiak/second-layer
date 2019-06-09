@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button createButton;
     private Button explorationButton;
+    private Button myBoardsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
         explorationButton = findViewById(R.id.explore_button);
         explorationButton.setOnClickListener(new ExplorationButtonClick());
 
+        myBoardsButton = findViewById(R.id.my_boards_button);
+        myBoardsButton.setOnClickListener(new MyBoardsButtonClick());
+
+
+
     }
 
     private void startExplorationActivity(){
@@ -33,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void startCreationActivity(){
         Intent intent = new Intent(this, CreationActivity.class);
+        startActivity(intent);
+    }
+
+    private void startBoardListActivity(){
+        Intent intent = new Intent(this, BoardListActivity.class);
         startActivity(intent);
     }
 
@@ -47,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             startExplorationActivity();
+        }
+    }
+
+    private class MyBoardsButtonClick implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            startBoardListActivity();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.tomaszkrystkowiak.secondlayer;
 
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class BoardListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_list);
+        boardArray = new ArrayList<>();
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "boards").build();
         DbboardsAsyncTask dbRoutesAsyncTask = new DbboardsAsyncTask();
