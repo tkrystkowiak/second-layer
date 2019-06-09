@@ -23,12 +23,24 @@
         android:id="@+id/explore_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="7dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="@string/explore_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/create_button" />
+
+    <Button
+        android:id="@+id/my_boards_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/explore_button"
+        tools:text="@string/my_boards_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

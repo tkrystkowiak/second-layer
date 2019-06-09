@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startBoardListActivity(){
+        Intent intent = new Intent(this, BoardListActivity.class);
+        startActivity(intent);
+    }
+
     private class CreateButtonClick implements View.OnClickListener{
 
         @Override
@@ -47,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             startExplorationActivity();
+        }
+    }
+
+    private class ShowButtonClick implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            startBoardListActivity();
         }
     }
 }
