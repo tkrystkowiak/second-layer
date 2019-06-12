@@ -6,5 +6,9 @@
     <string name="add_save_button">Save</string>
     <string name="my_boards_button">My Boards</string>
     <string name="title_activity_exploration">Map</string>
+    <string name="delete_button">Delete</string>
+    <string name="title_title">Title: </string>
+    <string name="title_date">Date: </string>
+    <string name="title_messages">Messages: </string>
     <string name="user_name">Tomek</string>
 </resources>

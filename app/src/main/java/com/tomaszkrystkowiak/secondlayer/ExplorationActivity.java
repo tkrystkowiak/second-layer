@@ -3,6 +3,7 @@ package com.tomaszkrystkowiak.secondlayer;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,6 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.room.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExplorationActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -36,12 +41,17 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationCallback mLocationCallback;
     private Location mLastKnownLocation;
+    private ArrayList<Board> boardArray;
+    private AppDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exploration);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        boardArray = new ArrayList<>();
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "boards").build();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -163,13 +173,59 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
         }
     }
 
+    private void paintBoards(){
+        Log.i(TAG,"Size: "+ boardArray.size());
+        for(Board board: boardArray){
+            Log.i(TAG,"Distance: "+ board.location.distanceTo(mLastKnownLocation));
+            if(board.location.distanceTo(mLastKnownLocation)<=50){
+                Log.i(TAG,"board painted");
+                MarkerOptions bMarkerOptions = new MarkerOptions();
+                bMarkerOptions.position(new LatLng(board.location.getLatitude(),board.location.getLongitude()));
+                bMarkerOptions.title(board.title);
+
+                mMap.addMarker(bMarkerOptions);
+            }
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "Building map.");
         mMap = googleMap;
 
         updateLocationUI();
-
         getDeviceLocation();
+        ExplorationActivity.DbAllBoardsAsyncTask dbRoutesAsyncTask = new ExplorationActivity.DbAllBoardsAsyncTask();
+        dbRoutesAsyncTask.execute();
+    }
+
+    private class DbAllBoardsAsyncTask extends AsyncTask<Void , Void, List<Board>> {
+
+
+        @Override
+        protected  List<Board> doInBackground(Void...voids) {
+
+            List<Board> boardList = db.boardDao().getAll();
+            if(boardList.isEmpty()){
+                return null;
+            }
+            else {
+                return boardList;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Board> boardList) {
+            if(boardList != null) {
+                for( Board board: boardList){
+                    Log.i(TAG,"Board location:"+board.location.toString());
+
+                    boardArray.add(board);
+                }
+                Log.i(TAG,"boards readed");
+                paintBoards();
+            }
+        }
+
     }
 }

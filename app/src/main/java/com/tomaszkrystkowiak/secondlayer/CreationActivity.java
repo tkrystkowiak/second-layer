@@ -22,7 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
@@ -31,9 +36,10 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -61,6 +67,7 @@ public class CreationActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_creation);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        setLocation();
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.board_fragment);
         ViewRenderable.builder()
                 .setView(this, R.layout.board)
@@ -134,7 +141,10 @@ public class CreationActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        builder.setPositiveButton("OK", (dialog, which) -> textView.setText(input.getText().toString()));
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            boardTitle = input.getText().toString();
+            textView.setText(boardTitle);
+        });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         builder.show();
@@ -155,19 +165,22 @@ public class CreationActivity extends AppCompatActivity {
         dbBoardSavingAsyncTask.execute();
     }
 
-    private Location getLocation() {
+    private Location setLocation() {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You need to enable permissions to display location !", Toast.LENGTH_SHORT).show();
         }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            lastKnownLocation = location;
-                        }
-                    }
-                });
+
+        Task locationResult = fusedLocationClient.getLastLocation();
+        locationResult.addOnCompleteListener(this, new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "Location found.");
+                    lastKnownLocation = (Location) task.getResult();
+
+                }
+            }
+        });
         return lastKnownLocation;
     }
 
@@ -175,8 +188,10 @@ public class CreationActivity extends AppCompatActivity {
         Board toSave = new Board();
         toSave.creator = getResources().getString(R.string.user_name);
         toSave.title = boardTitle;
-        toSave.location = getLocation();
+        Log.i(TAG, "Location: " +lastKnownLocation.toString());
+        toSave.location = lastKnownLocation;
         toSave.date = Calendar.getInstance().getTime();
+        toSave.messages = new ArrayList<>();
         return toSave;
     }
 
