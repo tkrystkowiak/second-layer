@@ -9,6 +9,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.maps.model.LatLng;
+
 @Entity
 public class Board {
 
@@ -22,7 +24,7 @@ public class Board {
     public String creator;
 
     @ColumnInfo(name = "location")
-    public Location location;
+    public LatLng location;
 
     @ColumnInfo(name = "date")
     public Date date;

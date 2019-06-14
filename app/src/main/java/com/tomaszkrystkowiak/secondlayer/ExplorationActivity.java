@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -176,12 +177,16 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
     private void paintBoards(){
         Log.i(TAG,"Size: "+ boardArray.size());
         for(Board board: boardArray){
-            Log.i(TAG,"Distance: "+ board.location.distanceTo(mLastKnownLocation));
-            if(board.location.distanceTo(mLastKnownLocation)<=50){
+            Location boardLocation = new Location("");
+            boardLocation.setLatitude(board.location.latitude);
+            boardLocation.setLongitude(board.location.longitude);
+            Log.i(TAG,"Distance: "+ boardLocation.distanceTo(mLastKnownLocation));
+            if(boardLocation.distanceTo(mLastKnownLocation)<=50){
                 Log.i(TAG,"board painted");
                 MarkerOptions bMarkerOptions = new MarkerOptions();
-                bMarkerOptions.position(new LatLng(board.location.getLatitude(),board.location.getLongitude()));
+                bMarkerOptions.position(board.location);
                 bMarkerOptions.title(board.title);
+                bMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.board));
 
                 mMap.addMarker(bMarkerOptions);
             }

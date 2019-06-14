@@ -2,6 +2,7 @@ package com.tomaszkrystkowiak.secondlayer;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,15 +25,15 @@ public class Converters {
     }
 
     @TypeConverter
-    public static String fromLocation(Location location) {
+    public static String fromLatLng(LatLng location) {
         Gson gson = new Gson();
         String json = gson.toJson(location);
         return json;
     }
 
     @TypeConverter
-    public static Location fromStringToLocation(String location) {
-        return new Gson().fromJson(location, Location.class);
+    public static LatLng fromStringToLatLng(String location) {
+        return new Gson().fromJson(location, LatLng.class);
     }
 
     @TypeConverter
