@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class BoardListActivity extends AppCompatActivity {
     private final static String TAG = "BoardListActivity";
     private ArrayList<Board> boardArray;
     private AppDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +63,39 @@ public class BoardListActivity extends AppCompatActivity {
             TextView tvTitle = convertView.findViewById(R.id.board_title);
             TextView tvDate = convertView.findViewById(R.id.board_date);
             TextView tvMessages = convertView.findViewById(R.id.board_messages);
+            Button delete = convertView.findViewById(R.id.delete_button);
+            View.OnClickListener deleteButtonClick = new DeleteButtonClick();
+            ((DeleteButtonClick) deleteButtonClick).setBoardToDelete(board);
+            delete.setOnClickListener(deleteButtonClick);
             // Populate the data into the template view using the data object
             SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd");
             tvTitle.setText(board.title);
             tvDate.setText(dt.format(board.date));
             tvMessages.setText(String.valueOf(board.messages.size()));
+
+
             // Return the completed view to render on screen
             return convertView;
         }
 
     }
+
+    private class DeleteButtonClick implements View.OnClickListener{
+
+        private Board boardToDelete;
+
+        public void setBoardToDelete(Board board){
+            boardToDelete = board;
+        }
+
+        @Override
+        public void onClick(View v) {
+            DeleteBoardAsyncTask deleteTask = new DeleteBoardAsyncTask();
+            deleteTask.execute(boardToDelete);
+        }
+    }
+
+
 
 
     private class DbboardsAsyncTask extends AsyncTask<Void , Void, List<Board>> {
@@ -99,5 +124,14 @@ public class BoardListActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private class DeleteBoardAsyncTask extends AsyncTask<Board, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Board... boards) {
+            db.boardDao().delete(boards[0]);
+            return null;
+        }
     }
 }

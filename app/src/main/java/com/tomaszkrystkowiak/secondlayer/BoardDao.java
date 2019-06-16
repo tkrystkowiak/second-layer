@@ -11,6 +11,8 @@ import androidx.room.Query;
 @Dao
 public interface BoardDao {
 
+    List<Board> getByTitle(String title);
+
     @Query("SELECT * FROM board WHERE creator LIKE :user ")
     List<Board> getAllUserBoards(String user);
 

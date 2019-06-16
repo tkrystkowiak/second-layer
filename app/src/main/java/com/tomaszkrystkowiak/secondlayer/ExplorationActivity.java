@@ -1,7 +1,10 @@
 package com.tomaszkrystkowiak.secondlayer;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -186,18 +190,23 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
                 MarkerOptions bMarkerOptions = new MarkerOptions();
                 bMarkerOptions.position(board.location);
                 bMarkerOptions.title(board.title);
-                bMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.board));
-
-                mMap.addMarker(bMarkerOptions);
+                bMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                mMap.addMarker(bMarkerOptions).showInfoWindow();
             }
         }
+    }
+
+    private void startBoardViewActivity(String boardTitle){
+        Intent intent = new Intent(this, CreationActivity.class);
+        intent.putExtra("title",boardTitle);
+        startActivity(intent);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "Building map.");
         mMap = googleMap;
-
+        mMap.setOnMarkerClickListener(new MarkerClick());
         updateLocationUI();
         getDeviceLocation();
         ExplorationActivity.DbAllBoardsAsyncTask dbRoutesAsyncTask = new ExplorationActivity.DbAllBoardsAsyncTask();
@@ -232,5 +241,17 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
             }
         }
 
+    }
+
+    private class MarkerClick implements GoogleMap.OnMarkerClickListener {
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            String title = marker.getTitle();
+            if(title!=null){
+                startBoardViewActivity(title);
+            }
+            return false;
+        }
     }
 }

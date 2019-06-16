@@ -62,7 +62,7 @@ public class CreationActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationCallback mLocationCallback;
     private Location mLastKnownLocation;
-    private boolean mLocationPermissionGranted;
+    private boolean mLocationPermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,9 @@ public class CreationActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_creation);
-        getLocationPermission();
+        while (!mLocationPermissionGranted) {
+            getLocationPermission();
+        }
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationCallback = new LocationCallback() {
             @Override
@@ -81,6 +83,7 @@ public class CreationActivity extends AppCompatActivity {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
+                    Log.i(TAG, "Location result");
                     mLastKnownLocation = location;
                     Log.i(TAG, mLastKnownLocation.toString());
                 }
