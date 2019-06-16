@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/board_view"
-    android:layout_width="150dp"
-    android:layout_height="300dp"
+    android:layout_width="250dp"
+    android:layout_height="500dp"
     android:orientation="vertical"
     android:visibility="visible"
     android:background="@drawable/board">

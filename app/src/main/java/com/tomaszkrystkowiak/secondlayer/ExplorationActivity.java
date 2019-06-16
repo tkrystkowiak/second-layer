@@ -197,7 +197,7 @@ public class ExplorationActivity extends FragmentActivity implements OnMapReadyC
     }
 
     private void startBoardViewActivity(String boardTitle){
-        Intent intent = new Intent(this, CreationActivity.class);
+        Intent intent = new Intent(this, BoardViewActivity.class);
         intent.putExtra("title",boardTitle);
         startActivity(intent);
     }

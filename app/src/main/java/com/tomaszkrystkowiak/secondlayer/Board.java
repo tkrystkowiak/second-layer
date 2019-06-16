@@ -33,5 +33,4 @@ public class Board {
     public ArrayList<Message> messages;
 
 
-
 }

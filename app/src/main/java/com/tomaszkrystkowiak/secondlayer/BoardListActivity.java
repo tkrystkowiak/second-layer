@@ -46,6 +46,7 @@ public class BoardListActivity extends AppCompatActivity {
     }
 
     private class BoardListAdapter extends ArrayAdapter<Board>{
+
         public BoardListAdapter(Context context, ArrayList<Board> boards) {
             super(context, 0, boards);
         }
